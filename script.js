@@ -11,85 +11,85 @@ function convertToRoman(num) {
 
     let result = "";
 
-    // M
-    while (num >= obj[0][1]) {
-        result += obj[0][0];
-        num -= obj[0][1];
-    }
+    const keys = Object.keys(obj);
 
-    // 900 = CM
-    if (num >= 900) {
-        result += "CM";
-        num -= 900;
-    }
+    for (let i = 0; i < keys.length; i++) {
+        let key = keys[i];
+        let symbol = obj[key][0];
+        let value = obj[key][1];
 
-    // D
-    while (num >= obj[1][1]) {
-        result += obj[1][0];
-        num -= obj[1][1];
-    }
+        // Handle subtractive cases
+        if (value === 1000 && num >= 1000) {
+            let count = Math.floor(num / 1000);
+            result += symbol.repeat(count);
+            num %= 1000;
+        }
+        else if (value === 500) {
+            if (num >= 900) {
+                result += "CM";
+                num -= 900;
+            }
 
-    // 400 = CD
-    if (num >= 400) {
-        result += "CD";
-        num -= 400;
-    }
+            if (num >= 500) {
+                result += "D";
+                num -= 500;
+            }
+        }
+        else if (value === 100) {
+            if (num >= 400) {
+                result += "CD";
+                num -= 400;
+            }
 
-    // C
-    while (num >= obj[2][1]) {
-        result += obj[2][0];
-        num -= obj[2][1];
-    }
+            let count = Math.floor(num / 100);
+            result += symbol.repeat(count);
+            num %= 100;
+        }
+        else if (value === 50) {
+            if (num >= 90) {
+                result += "XC";
+                num -= 90;
+            }
 
-    // 90 = XC
-    if (num >= 90) {
-        result += "XC";
-        num -= 90;
-    }
+            if (num >= 50) {
+                result += "L";
+                num -= 50;
+            }
+        }
+        else if (value === 10) {
+            if (num >= 40) {
+                result += "XL";
+                num -= 40;
+            }
 
-    // L
-    while (num >= obj[3][1]) {
-        result += obj[3][0];
-        num -= obj[3][1];
-    }
+            let count = Math.floor(num / 10);
+            result += symbol.repeat(count);
+            num %= 10;
+        }
+        else if (value === 5) {
+            if (num >= 9) {
+                result += "IX";
+                num -= 9;
+            }
 
-    // 40 = XL
-    if (num >= 40) {
-        result += "XL";
-        num -= 40;
-    }
+            if (num >= 5) {
+                result += "V";
+                num -= 5;
+            }
+        }
+        else if (value === 1) {
+            if (num >= 4) {
+                result += "IV";
+                num -= 4;
+            }
 
-    // X
-    while (num >= obj[4][1]) {
-        result += obj[4][0];
-        num -= obj[4][1];
-    }
-
-    // 9 = IX
-    if (num >= 9) {
-        result += "IX";
-        num -= 9;
-    }
-
-    // V
-    while (num >= obj[5][1]) {
-        result += obj[5][0];
-        num -= obj[5][1];
-    }
-
-    // 4 = IV
-    if (num >= 4) {
-        result += "IV";
-        num -= 4;
-    }
-
-    // I
-    while (num >= obj[6][1]) {
-        result += obj[6][0];
-        num -= obj[6][1];
+            result += symbol.repeat(num);
+            num = 0;
+        }
     }
 
     return result;
 }
+
 // do not edit below this line
 module.exports = convertToRoman;
